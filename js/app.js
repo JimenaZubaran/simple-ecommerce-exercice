@@ -46,6 +46,8 @@ function addToCart(id) {
   3) Cambiar el boton de agregar a carrito
   por quitar del carrito
   */
+ let button = document.getElementById('btnAddToCar');
+ changeButtonStatus(button);
 //let idProduct = id;
 let productId = id
 //agregar ids al array con .push
@@ -68,6 +70,8 @@ function removeFromCart() {
   3) Cambiar el boton de quitar del carrito
   por agregar a carrito
   */
+ let button = document.getElementById('removeFromCart');
+ changeButtonStatus(button);
 }
 
 function increaseCounter() {
@@ -83,9 +87,13 @@ function decreaseCounter() {
 }
 
 function changeButtonStatus(button) {
-  const btnAddToCar = document.getElementById('btnAddToCar');
-  const btnRemoveFromCar = document.getElementById('btnRemoveFromCar');
-  
+  if (button.className === 'hiddenn'){
+    button.className = "show"
+  }else{
+    button.className = "hiddenn"
+  }
+  // const btnRemoveFromCar = document.getElementById('btnRemoveFromCar');
+  // btnAddToCar.className.add("hidden");
   //if () {
 
   //}
