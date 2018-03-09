@@ -12,15 +12,10 @@ function createProductHTML(product) {
     <h3>${product.title}</h3>
     <img src='${product.imageUrl}' alt='${product.description}'/>
     <p>${product.description}</p>
-    <button id='btnAddToCar' data-product-id=${product.id}
-      onclick="addToCart(${product.id})"
+    <button id="${product.id}" data-product-id=${product.id}
+      onclick="changeButtonStatus(${product.id})"
       class='btn btn-primary'>
         Agregar a carrito
-      </button>
-      <button  id='btnRemoveFromCar' class='hiddenn' data-product-id=${product.id}
-      onclick="removeFromCart(${product.id})"
-      class='btn btn-primary'>
-        Quitar del carrito
       </button>
     <hr/>
   `;
@@ -32,75 +27,87 @@ function createProductHTML(product) {
 
 drawProducts(data);
 
-//guarda id cliqueado dentro de localStorage
-localStorage.setItem("arrayIds", JSON.stringify([]));
-//convertir local storage a array
-let arrayProducts = localStorage.getItem("arrayIds")
+//Prubas localStorage con id
+// //guarda id cliqueado dentro de localStorage
+// localStorage.setItem("arrayIds", JSON.stringify([]));
+// //convertir local storage a array
+// let arrayProducts = localStorage.getItem("arrayIds")
+// let fullArrayProducts = JSON.parse(arrayProducts); 
 
-let fullArrayProducts = JSON.parse(arrayProducts); 
+
+
+//--Function addToCard-------------------------------------------------------------------------------------------------------
+//Array vacio
+let arrayId = [ ];
 
 function addToCart(id) {
-  /* cuando agrego a carrito, tengo que:
-  1) Incrementar en uno mi contador del menu
-  2) Guardar mi producto en algun lugar
-  3) Cambiar el boton de agregar a carrito
-  por quitar del carrito
-  */
- let button = document.getElementById('btnAddToCar');
- changeButtonStatus(button);
-//let idProduct = id;
-let productId = id
-//agregar ids al array con .push
-
-fullArrayProducts.push(id)
-
-//console.log(fullArrayProducts)
-
-localStorage.setItem("arrayIds", JSON.stringify(fullArrayProducts));
-//localStorage.setItem('datos', JSON.stringify());
-increaseCounter(fullArrayProducts)
-
- // let idBtn = document.getElementById("")
+  let products = data.products[id];
+  console.log(id);
+  arrayId.push(products);
+  localStorage.setItem("arrayIds", JSON.stringify(arrayId));
+  increaseCounter();
+//  arrayId.push(product);
+//  //console.log(arrayId);
+// //Pasar a local storage
+//  localStorage.setItem("arrayIds", JSON.stringify(arrayId));
 }
 
-function removeFromCart() {
-  /* cuando agrego a carrito, tengo que:
-  1) Decrementar en uno mi contador del menu
-  2) Borrar mi producto de algun lugar
-  3) Cambiar el boton de quitar del carrito
-  por agregar a carrito
-  */
- let button = document.getElementById('removeFromCart');
- changeButtonStatus(button);
+
+
+
+//--Function removeFromCart-------------------------------------------------------------------------------------------------------
+function removeFromCart(id) {
+ let products = data.products[id];
+ console.log(id);
+ arrayId.pop(products);
+ localStorage.setItem("arrayIds", JSON.stringify(arrayId));
+ decreaseCounter()
 }
 
+
+
+
+//--Function increaseCounter-------------------------------------------------------------------------------------------------------
 function increaseCounter() {
-  let containerCounter = document.getElementById("counterItems");
-  console.log()
+  counter()
   /* como accedemos al HTML del contador
   y como lo incrementamos*/
 }
 
+
+
+//--Function decreaseCounter-------------------------------------------------------------------------------------------------------
 function decreaseCounter() {
+  counter();
   /* como accedemos al HTML del contador
   y como lo incrementamos*/
 }
 
-function changeButtonStatus(button) {
-  if (button.className === 'hiddenn'){
-    button.className = "show"
-  }else{
-    button.className = "hiddenn"
-  }
-  // const btnRemoveFromCar = document.getElementById('btnRemoveFromCar');
-  // btnAddToCar.className.add("hidden");
-  //if () {
-
-  //}
-  /* esta funcion deberia recibir un boton y
-  cambiar su estatus
-    Si el boton esta en agregar al carrito
-      cambia el texto a quitar del carrito
-    Y viceversa
-  */
+//--Function counter-------------------------------------------------------------------------------------------------------
+function counter (){
+  let counter = document.getElementById("counterItems");  
+  let arrayProducts = localStorage.getItem("arrayIds")
+//Convertir a Array
+  let productsArr =(JSON.parse(arrayProducts)).length;
+  console.log(productsArr);
+  counter.innerText = productsArr;
 }
+
+
+//--Function changeButtonStatus-------------------------------------------------------------------------------------------------------
+function changeButtonStatus(id) {
+//Traer todo el elemeto que tenga ese id
+  let buttonId = document.getElementById(id)
+  console.log(buttonId);
+  
+  if (buttonId.innerText === 'Agregar a carrito'){
+    // console.log(button.value);
+    buttonId.innerText = 'Quitar del carrito'
+    addToCart(buttonId.id)
+    //console.log(buttonId);
+  }else{
+    buttonId.innerText= 'Agregar a carrito'
+    removeFromCart(buttonId.id);
+ }
+}
+
