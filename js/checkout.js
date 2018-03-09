@@ -1,49 +1,3 @@
-
-paypal.Button.render({
-
-  env: 'sandbox', // sandbox | production
-
-  // PayPal Client IDs - replace with your own
-  // Create a PayPal app: https://developer.paypal.com/developer/applications/create
-  client: {
-      sandbox:    'AZDxjDScFpQtjWTOUtWKbyN_bDt4OgqaF4eYXlewfBP4-8aqX3PiV8e1GWU6liB2CUXlkA59kJXE7M6R',
-      production: '<insert production client id>'
-  },
-
-  // Show the buyer a 'Pay Now' button in the checkout flow
-  commit: true,
-
-  // payment() is called when the button is clicked
-  payment: function(data, actions) {
-
-      // Make a call to the REST api to create the payment
-      return actions.payment.create({
-          payment: {
-              transactions: [
-                  {
-                      amount: { total: sumTotalPrice, currency: 'MX' }
-                  }
-              ]
-          }
-      });
-  },
-
-  // onAuthorize() is called when the buyer approves the payment
-  onAuthorize: function(data, actions) {
-    console.log(data)
-      // Make a call to the REST api to execute the payment
-      return actions.payment.execute().then(function() {
-        //let confir = document.getElementById("confirmacion-paypal");
-        //confir.innerHTML = "Payment Complete";
-          window.alert('Payment Complete!');
-      });
-  }
-
-}, '#paypal-button-container');
-
-
-
-
 let counterCheckuot = document.getElementById("counterItems");  
 //Tomar del localStorage y colocar en contador la cantdad de items en el array
 let arrayProducts = JSON.parse(localStorage.getItem("arrayIds"));
@@ -70,7 +24,7 @@ productsContainer.prepend(tr);
 let totalContainer = document.getElementById('total_container')
 totalContainer.innerHTML = sumTotalPrice
 console.log(sumTotalPrice);
-payment(sumTotalPrice)
+
 }
 
 
@@ -87,3 +41,48 @@ return template
 }
 
 calculateTotal(arrayProducts);
+
+
+
+
+paypal.Button.render({
+
+  env: 'sandbox', // sandbox | production
+
+  // PayPal Client IDs - replace with your own
+  // Create a PayPal app: https://developer.paypal.com/developer/applications/create
+  client: {
+      sandbox:    'AcGRwPF_uQngnc-WSz7M9F1Mik8xnc4irZw__xE0dserau0k7WhoV79HHDG3rMtgIlDHEZnU2V84ARkT',
+      production: '<insert production client id>'
+  },
+
+  // Show the buyer a 'Pay Now' button in the checkout flow
+  commit: true,
+
+  // payment() is called when the button is clicked
+  payment: function(data, actions) {
+
+      // Make a call to the REST api to create the payment
+      return actions.payment.create({
+          payment: {
+              transactions: [
+                  {
+                      amount: { total: "1.00", currency: 'MXN' }
+                  }
+              ]
+          }
+      });
+  },
+
+  // onAuthorize() is called when the buyer approves the payment
+  onAuthorize: function(data, actions) {
+    console.log(data)
+      // Make a call to the REST api to execute the payment
+      return actions.payment.execute().then(function() {
+        //let confir = document.getElementById("confirmacion-paypal");
+        //confir.innerHTML = "Payment Complete";
+          window.alert('Payment Complete!');
+      });
+  }
+
+}, '#paypal-button-container');
