@@ -45,7 +45,7 @@ function addToCart(id) {
   console.log(id);
   arrayId.push(products);
   localStorage.setItem("arrayIds", JSON.stringify(arrayId));
-  increaseCounter();
+  counterFunction();
 //  arrayId.push(product);
 //  //console.log(arrayId);
 // //Pasar a local storage
@@ -58,33 +58,29 @@ function addToCart(id) {
 //--Function removeFromCart-------------------------------------------------------------------------------------------------------
 function removeFromCart(id) {
  let products = data.products[id];
- console.log(id);
+ console.log(products);
  arrayId.pop(products);
  localStorage.setItem("arrayIds", JSON.stringify(arrayId));
- decreaseCounter()
+ counterFunction()
 }
 
 
 
 
 //--Function increaseCounter-------------------------------------------------------------------------------------------------------
-function increaseCounter() {
-  counter()
-  /* como accedemos al HTML del contador
-  y como lo incrementamos*/
+/*function increaseCounter() {
+  counterFunction()
 }
 
 
 
 //--Function decreaseCounter-------------------------------------------------------------------------------------------------------
 function decreaseCounter() {
-  counter();
-  /* como accedemos al HTML del contador
-  y como lo incrementamos*/
+  counterFunction();
 }
-
-//--Function counter-------------------------------------------------------------------------------------------------------
-function counter (){
+*/
+//--Function counterFunction-------------------------------------------------------------------------------------------------------
+function counterFunction (){
   let counter = document.getElementById("counterItems");  
   let arrayProducts = localStorage.getItem("arrayIds")
 //Convertir a Array
